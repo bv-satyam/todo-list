@@ -1,26 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import Todos from './todo';
+import AddTodos from './addtodo';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import todoReducer from './reducers/todo-reducer';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const store = createStore(todoReducer, applyMiddleware(thunk));
+
+class App extends Component {
+
+	render(){
+		return(
+			<Provider store={store}>
+	    	<div className="container my-3">
+					<div className="row">
+						<div className="col">
+							<AddTodos />
+						</div>
+						<div className="col">
+							List:
+							<Todos/>
+						</div>
+					</div>
+	    	</div>
+    	</Provider>
+ 	 );
+	}
 }
 
 export default App;
